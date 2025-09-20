@@ -95,6 +95,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/products" className="text-primary-foreground/90 hover:text-primary-foreground transition-colors text-sm sm:text-base lg:text-lg font-medium">
+                  Products
+                </a>
+              </li>
+              <li>
                 <a href="#about" className="text-primary-foreground/90 hover:text-primary-foreground transition-colors text-sm sm:text-base lg:text-lg font-medium">
                   About Us
                 </a>
