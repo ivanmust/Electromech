@@ -64,7 +64,7 @@ export function ContactSection() {
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-balance mb-4 sm:mb-6 px-4">Ready to Start Your Project?</h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-pretty max-w-4xl mx-auto leading-relaxed px-4">
-            Contact our expert team for professional water engineering solutions. We're here to help bring your vision to life with reliable, efficient, and sustainable systems.
+            Contact our expert team for professional water and energy solutions. We're here to help bring your vision to life with reliable, efficient, and sustainable systems.
           </p>
         </div>
 
@@ -125,9 +125,9 @@ export function ContactSection() {
             </CardHeader>
             <CardContent className="p-4 sm:p-6">
               {isSubmitted && (
-                <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-50 border border-green-200 rounded-lg flex items-center space-x-2">
-                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
-                  <p className="text-green-800 text-sm sm:text-base">Thank you! Your message has been sent successfully.</p>
+                <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-success/10 border border-success/30 rounded-lg flex items-center space-x-2">
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-success" />
+                  <p className="text-success font-semibold text-sm sm:text-base">Thank you! Your message has been sent successfully.</p>
                 </div>
               )}
 
@@ -188,7 +188,7 @@ export function ContactSection() {
 
                 <Button 
                   type="submit" 
-                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary transition-all duration-300" 
+                  className="w-full h-12 sm:h-14 text-base sm:text-lg font-semibold bg-gradient-to-r from-success to-success/90 hover:from-success/90 hover:to-success transition-all duration-300 text-success-foreground" 
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Sending Message..." : "Send Free Quote Request"}

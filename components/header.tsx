@@ -9,13 +9,19 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      })
+    // Check if we're on the home page
+    if (window.location.pathname === '/') {
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        })
+      }
+    } else {
+      // If we're on a different page, navigate to home and then scroll
+      window.location.href = `/#${sectionId}`
     }
     setIsMenuOpen(false) // Close mobile menu after navigation
   }
@@ -27,7 +33,13 @@ export function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <div className="flex items-center">
-            <div className="cursor-pointer group" onClick={() => scrollToSection("home")}>
+            <div className="cursor-pointer group" onClick={() => {
+              if (window.location.pathname === '/') {
+                scrollToSection("home")
+              } else {
+                window.location.href = '/'
+              }
+            }}>
               <Image
                 src="/images/electromech-logo.jpg"
                 alt="Electromech - Your Engineering Solutions"
@@ -60,6 +72,13 @@ export function Header() {
                   className="text-base font-semibold hover:text-primary transition-colors relative group"
                 >
                   Products
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a
+                  href="/team"
+                  className="text-base font-semibold hover:text-primary transition-colors relative group"
+                >
+                  Our Team
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </a>
             <button
@@ -108,6 +127,12 @@ export function Header() {
                     className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
                   >
                     Products
+                  </a>
+                  <a
+                    href="/team"
+                    className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
+                  >
+                    Our Team
                   </a>
               <button
                 onClick={() => scrollToSection("about")}

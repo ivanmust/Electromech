@@ -19,9 +19,9 @@ export function AboutSection() {
           <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4 sm:mb-6">
             About Electromech
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-balance mb-4 sm:mb-6 px-4">Leading Water Engineering Experts</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-balance mb-4 sm:mb-6 px-4">Leading Water and Energy Experts</h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-pretty max-w-5xl mx-auto leading-relaxed px-4">
-            We are a registered and recognized business specialized in providing comprehensive water engineering solutions and
+            We are a registered and recognized business specialized in providing comprehensive water and energy solutions and
             maintenance of engineering equipment. With over 11 years of experience, we excel in Water Pumps, Swimming Pools and Fountains, Water
             Treatment, Irrigation, Solar Equipment, and General Machinery including Generators, Pressure Washers, and Drilling Machines.
           </p>
@@ -53,7 +53,7 @@ export function AboutSection() {
             </CardHeader>
             <CardContent className="p-4 sm:p-6 pt-0">
               <CardDescription className="text-sm sm:text-base leading-relaxed">
-                To be the leading provider of sustainable water and energy solutions in East Africa, empowering communities and
+                To be the leading provider of sustainable water and energy solutions in Africa, empowering communities and
                 industries with innovative technology and reliable service excellence.
               </CardDescription>
             </CardContent>

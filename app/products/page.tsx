@@ -38,7 +38,7 @@ export default function ProductsPage() {
     id: index + 1,
     image: `/images/${index + 1}.jpg`,
     title: `Product ${index + 1}`,
-    description: `High-quality water engineering equipment and solutions - Product ${index + 1}`,
+    description: `High-quality water and energy equipment and solutions - Product ${index + 1}`,
     category: index < 8 ? "Water Pumps" : index < 16 ? "Treatment Systems" : index < 24 ? "Irrigation Equipment" : "General Machinery"
   }))
 
@@ -161,13 +161,13 @@ Electromech Order System`
               Our Products
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-balance mb-6 px-4">
-              Professional Water Engineering
+              Professional Water and Energy
               <span className="block text-accent bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent">
                 Equipment & Solutions
               </span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground text-pretty max-w-4xl mx-auto leading-relaxed px-4">
-              Explore our comprehensive range of high-quality water engineering equipment, pumps, 
+              Explore our comprehensive range of high-quality water and energy equipment, pumps, 
               treatment systems, and industrial machinery designed for reliability and performance.
             </p>
           </div>
@@ -182,7 +182,7 @@ Electromech Order System`
               Our Product Catalog
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground text-pretty max-w-3xl mx-auto px-4 mb-6">
-              Browse through our extensive collection of professional water engineering equipment and solutions. 
+              Browse through our extensive collection of professional water and energy equipment and solutions. 
               Select products you're interested in and place an order.
             </p>
             {selectedProducts.length > 0 && (
@@ -192,7 +192,7 @@ Electromech Order System`
                 </div>
                 <Button 
                   onClick={() => setShowOrderForm(true)}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground border-2 border-accent"
                 >
                   <ShoppingCart className="w-4 h-4 mr-2" />
                   Place Order
@@ -538,14 +538,14 @@ Electromech Order System`
                       preferredContact: "phone"
                     })
                   }}
-                  className="bg-green-600 hover:bg-green-700"
+                  className="bg-success hover:bg-success/90 text-success-foreground"
                 >
                   Place Another Order
                 </Button>
                 <Button 
                   variant="outline" 
                   onClick={() => window.location.href = '/#contact'}
-                  className="border-green-600 text-green-600 hover:bg-green-50"
+                  className="border-success text-success hover:bg-success/10"
                 >
                   Contact Us
                 </Button>

@@ -7,9 +7,9 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Electromech - Water Engineering Solutions Provider",
+  title: "Electromech - Water and Energy Solutions Provider",
   description:
-    "Leading water engineering solutions provider in East Africa. Specializing in water pumps, irrigation, water treatment, swimming pools, fountains, and machinery supply.",
+    "Leading water and energy solutions provider in Africa. Specializing in water pumps, irrigation, water treatment, swimming pools, fountains, and machinery supply.",
   generator: "v0.app",
 }
 

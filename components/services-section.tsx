@@ -31,7 +31,7 @@ const services = [
     icon: Sun,
     title: "Solar Equipment",
     description: "Sustainable solar-powered solutions for water pumping and energy generation.",
-    image: "/images/solar-power.webp",
+    image: "/images/f.jpeg",
   },
   {
     icon: Cog,
@@ -46,9 +46,12 @@ export function ServicesSection() {
     <section id="services" className="py-24 bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
+          <div className="inline-block px-4 py-2 bg-success/10 text-success rounded-full text-sm font-semibold mb-4 sm:mb-6">
+            Our Expertise
+          </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-balance mb-4 px-4">Our Services</h2>
           <p className="text-base sm:text-lg text-muted-foreground text-pretty max-w-3xl mx-auto px-4">
-            Comprehensive water engineering solutions tailored to meet your specific needs
+            Comprehensive water and energy solutions tailored to meet your specific needs
           </p>
         </div>
 
@@ -63,7 +66,7 @@ export function ServicesSection() {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-black/20"></div>
-                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 rounded-lg flex items-center justify-center">
+                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 rounded-lg flex items-center justify-center border-2 border-accent">
                   <service.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
               </div>
