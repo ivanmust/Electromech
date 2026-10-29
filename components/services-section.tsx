@@ -1,6 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Droplets, Waves, Zap, Sun, Cog } from "lucide-react"
+import { Droplets, Waves, FlaskConical, Sprout, Sun, Cog, ArrowUpRight } from "lucide-react"
 import Image from "next/image"
+import { Reveal, SectionHeading } from "@/components/reveal"
 
 const services = [
   {
@@ -11,18 +11,18 @@ const services = [
   },
   {
     icon: Waves,
-    title: "Swimming Pools and Fountains",
+    title: "Swimming Pools & Fountains",
     description: "Complete pool and fountain systems including design, installation, and maintenance services.",
     image: "/images/swimming-pool.webp",
   },
   {
-    icon: Droplets,
+    icon: FlaskConical,
     title: "Water Treatment",
     description: "Advanced water treatment systems to ensure clean, safe water for all your needs.",
     image: "/images/water treatment.jpg",
   },
   {
-    icon: Zap,
+    icon: Sprout,
     title: "Irrigation",
     description: "Efficient irrigation systems for agricultural and landscaping applications.",
     image: "/images/irrigation.jpg",
@@ -31,11 +31,11 @@ const services = [
     icon: Sun,
     title: "Solar Equipment",
     description: "Sustainable solar-powered solutions for water pumping and energy generation.",
-    image: "/images/f.jpeg",
+    image: "/images/solar-power.webp",
   },
   {
     icon: Cog,
-    title: "General Machinery Supply & Maintenance",
+    title: "Machinery Supply & Maintenance",
     description: "Generators, pressure washers, drilling machines, and comprehensive maintenance services.",
     image: "/images/water_pump.webp",
   },
@@ -43,40 +43,54 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section id="services" className="py-24 bg-muted/30">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <div className="inline-block px-4 py-2 bg-success/10 text-success rounded-full text-sm font-semibold mb-4 sm:mb-6">
-            Our Expertise
-          </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-balance mb-4 px-4">Our Services</h2>
-          <p className="text-base sm:text-lg text-muted-foreground text-pretty max-w-3xl mx-auto px-4">
-            Comprehensive water and energy solutions tailored to meet your specific needs
-          </p>
-        </div>
+    <section id="services" className="relative overflow-hidden border-y bg-muted/40 py-24 sm:py-32">
+      <div className="bg-grid-light mask-fade-b pointer-events-none absolute inset-x-0 top-0 h-96" />
+      <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeading
+          eyebrow="What we do"
+          title={
+            <>
+              Complete solutions for <span className="text-gradient-brand">water &amp; energy</span>
+            </>
+          }
+          description="Six specialist disciplines under one roof, from supply and installation to long-term maintenance."
+        />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {services.map((service, index) => (
-            <Card key={index} className="h-full hover:shadow-lg transition-shadow overflow-hidden">
-              <div className="relative h-40 sm:h-48 w-full">
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-black/20"></div>
-                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 rounded-lg flex items-center justify-center border-2 border-accent">
-                  <service.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+            <Reveal key={service.title} delay={(index % 3) * 100}>
+              <article className="spotlight group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-500 hover:-translate-y-1.5 hover:border-foreground/20 hover:shadow-[0_0_40px_-12px_oklch(0.66_0.19_248/0.45)]">
+                <div className="relative h-56">
+                  {/* Photo is clipped on its own so the icon badge below can overlap the card edge */}
+                  <div className="absolute inset-0 overflow-hidden border-b">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                  <span className="absolute right-4 top-4 rounded-full bg-ink/45 px-3 py-1 font-mono text-xs font-medium text-white ring-1 ring-white/20 backdrop-blur-md">
+                    0{index + 1}
+                  </span>
+                  <div className="absolute -bottom-6 left-6 flex size-14 items-center justify-center rounded-xl bg-primary text-white shadow-[0_8px_24px_-8px_oklch(0.66_0.19_248/0.9)] ring-4 ring-card transition-transform duration-300 group-hover:scale-110">
+                    <service.icon className="size-6" />
+                  </div>
                 </div>
-              </div>
-              <CardHeader className="p-4 sm:p-6">
-                <CardTitle className="text-lg sm:text-xl">{service.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 sm:p-6 pt-0">
-                <CardDescription className="text-sm sm:text-base leading-relaxed">{service.description}</CardDescription>
-              </CardContent>
-            </Card>
+                <div className="flex flex-1 flex-col p-6 pt-10">
+                  <h3 className="text-xl font-semibold">{service.title}</h3>
+                  <p className="mt-3 flex-1 leading-relaxed text-muted-foreground">{service.description}</p>
+                  <a
+                    href="#contact"
+                    className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors group-hover:text-foreground"
+                  >
+                    Request a quote
+                    <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>

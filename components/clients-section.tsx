@@ -1,60 +1,50 @@
 import Image from "next/image"
+import { SectionHeading } from "@/components/reveal"
+
+const clients = [
+  { name: "Mountain View Hotel & Apartment", logo: "/images/mountain-view-hotel.png" },
+  { name: "Ihusi Hotel", logo: "/images/ihusi-hotel.png" },
+  { name: "NPD - Reliability is our strength", logo: "/images/npd-logo.jpg" },
+  { name: "Rwanda National Police", logo: "/images/rnp-logo.png" },
+  { name: "Rwanda Defence Force", logo: "/images/rdf-logo.png" },
+  { name: "Goma Serena Hotel", logo: "/images/goma-serena-hotel.png" },
+]
 
 export function ClientsSection() {
-  const clients = [
-    {
-      name: "Mountain View Hotel & Apartment",
-      logo: "/images/mountain-view-hotel.png",
-    },
-    {
-      name: "Ihusi Hotel",
-      logo: "/images/ihusi-hotel.png",
-    },
-    {
-      name: "NPD - Reliability is our strength",
-      logo: "/images/npd-logo.jpg",
-    },
-    {
-      name: "Rwanda National Police",
-      logo: "/images/rnp-logo.png",
-    },
-    {
-      name: "Rwanda Defence Force",
-      logo: "/images/rdf-logo.png",
-    },
-    {
-      name: "Goma Serena Hotel",
-      logo: "/images/goma-serena-hotel.png",
-    },
-  ]
-
   return (
-    <section id="clients" className="py-24 bg-muted/30">
+    <section id="clients" className="py-24 sm:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-balance mb-4 px-4">Meet our Happy Clients</h2>
-          <p className="text-base sm:text-lg text-muted-foreground text-pretty max-w-4xl mx-auto leading-relaxed px-4">
-            For the past 11 years, we are proudly having served hundreds of amazing institutions from public, private
-            and Non-Governmental Organizations. Here are a few amazing happy clients.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Trusted by"
+          title="Meet our happy clients"
+          description="For over 11 years we have proudly served hundreds of institutions across the public, private and non-governmental sectors."
+        />
+      </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 items-center justify-items-center">
-          {clients.map((client, index) => (
-            <div
-              key={index}
-              className="w-32 h-24 sm:w-40 sm:h-32 lg:w-48 lg:h-36 bg-white rounded-lg shadow-sm border border-border/50 flex items-center justify-center p-4 sm:p-6 lg:p-8"
-            >
-              <Image
-                src={client.logo || "/placeholder.svg"}
-                alt={client.name}
-                width={180}
-                height={120}
-                className="w-full h-full object-contain"
-              />
-            </div>
-          ))}
-        </div>
+      <div className="mask-fade-x group relative flex overflow-hidden">
+        {[0, 1].map((copy) => (
+          <div
+            key={copy}
+            aria-hidden={copy === 1}
+            className="animate-marquee flex shrink-0 items-center gap-6 pr-6 group-hover:[animation-play-state:paused]"
+          >
+            {[...clients, ...clients].map((client, index) => (
+              <div
+                key={`${client.name}-${index}`}
+                className="flex h-28 w-52 shrink-0 items-center justify-center rounded-2xl border border-border bg-white p-6 opacity-85 transition-all duration-300 hover:-translate-y-1 hover:opacity-100 sm:h-32 sm:w-60"
+              >
+                <Image
+                  src={client.logo}
+                  alt={client.name}
+                  width={180}
+                  height={120}
+                  loading="eager"
+                  className="h-full w-full object-contain grayscale-[30%] transition-all duration-300 hover:grayscale-0"
+                />
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </section>
   )

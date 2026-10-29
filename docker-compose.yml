@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  electromech:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - WHATSAPP_API_URL=${WHATSAPP_API_URL:-}
+      - WHATSAPP_TOKEN=${WHATSAPP_TOKEN:-}
+    restart: unless-stopped
+    volumes:
+      # Optional: Mount .env.local if you have one
+      - ./.env.local:/app/.env.local:ro
+

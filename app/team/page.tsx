@@ -1,9 +1,16 @@
+import type { Metadata } from "next"
+import Image from "next/image"
+import { Award, Clock, Linkedin, Mail, Phone, Users } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Mail, Phone, Linkedin, Award, Users, Clock } from "lucide-react"
-import Image from "next/image"
+import { Reveal } from "@/components/reveal"
+
+export const metadata: Metadata = {
+  title: "Our Team",
+  description:
+    "Meet the Electromech team: dedicated professionals bringing decades of experience in water and energy solutions across Africa.",
+  alternates: { canonical: "/team" },
+}
 
 const teamMembers = [
   {
@@ -44,146 +51,131 @@ const teamMembers = [
   },
 ]
 
+const stats = [
+  { icon: Award, title: "15+ Years", text: "Average Experience" },
+  { icon: Users, title: "3", text: "Team Members" },
+  { icon: Clock, title: "24/7", text: "Support Available" },
+]
+
 export default function TeamPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen overflow-x-clip">
       <Header />
-      
+
       {/* Hero Section */}
-      <section className="relative py-24 bg-gradient-to-br from-primary/10 via-accent/5 to-success/10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-block px-4 py-2 bg-accent/20 text-accent rounded-full text-sm font-semibold mb-6">
-              <Users className="w-4 h-4 inline mr-2" />
-              Our Team
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-balance mb-6">
-              Meet Our <span className="text-accent">Expert Team</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground text-pretty mb-8">
-              Our dedicated professionals bring together decades of experience in water and energy solutions, 
-              working tirelessly to deliver excellence across Africa.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
-              <div className="flex flex-col items-center text-center p-4 bg-white/50 rounded-xl">
-                <Award className="w-8 h-8 text-accent mb-2" />
-                <h3 className="font-semibold text-lg">15+ Years</h3>
-                <p className="text-sm text-muted-foreground">Average Experience</p>
+      <section className="relative isolate overflow-hidden pb-20 pt-36 sm:pb-24 sm:pt-44">
+        <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,color-mix(in_oklch,var(--foreground)_4%,transparent)_1px,transparent_1px)] bg-[size:72px_100%] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
+          <div className="absolute -top-24 left-1/2 h-96 w-[50rem] -translate-x-1/2 rounded-full bg-primary/25 blur-[120px]" />
+        </div>
+        <div className="container mx-auto px-4 text-center sm:px-6 lg:px-8">
+          <span className="eyebrow animate-in fade-in duration-700">
+            <Users className="size-3.5" />
+            Our Team
+          </span>
+          <h1 className="animate-in fade-in slide-in-from-bottom-4 mx-auto mt-6 max-w-4xl text-[2.35rem] font-medium uppercase leading-[1.08] tracking-[0.01em] text-foreground duration-700 sm:text-6xl lg:text-7xl">
+            Meet Our <span className="text-gradient-brand">Expert Team</span>
+          </h1>
+          <p className="animate-in fade-in slide-in-from-bottom-4 mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-muted-foreground duration-700 [animation-delay:150ms] [animation-fill-mode:both]">
+            Our dedicated professionals bring together decades of experience in water and energy solutions,
+            working tirelessly to deliver excellence across Africa.
+          </p>
+          <dl className="animate-in fade-in mx-auto mt-12 grid max-w-2xl grid-cols-3 duration-700 [animation-delay:300ms] [animation-fill-mode:both] sm:divide-x sm:divide-foreground/10">
+            {stats.map((stat) => (
+              <div key={stat.text} className="flex flex-col items-center gap-1 px-3">
+                <stat.icon className="size-4 text-sky" />
+                <dt className="mt-1 text-lg font-semibold text-foreground">{stat.title}</dt>
+                <dd className="text-xs font-light text-muted-foreground">{stat.text}</dd>
               </div>
-              <div className="flex flex-col items-center text-center p-4 bg-white/50 rounded-xl">
-                <Users className="w-8 h-8 text-primary mb-2" />
-                <h3 className="font-semibold text-lg">3</h3>
-                <p className="text-sm text-muted-foreground">Team Members</p>
-              </div>
-              <div className="flex flex-col items-center text-center p-4 bg-white/50 rounded-xl">
-                <Clock className="w-8 h-8 text-success mb-2" />
-                <h3 className="font-semibold text-lg">24/7</h3>
-                <p className="text-sm text-muted-foreground">Support Available</p>
-              </div>
-            </div>
-          </div>
+            ))}
+          </dl>
         </div>
       </section>
 
       {/* Team Members Grid */}
-      <section className="py-24">
+      <section className="pb-24 sm:pb-32">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {teamMembers.map((member, index) => (
-              <Card key={index} className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                    <p className="text-white/90 font-medium">{member.position}</p>
-                    <Badge variant="secondary" className="mt-2 bg-white/20 text-white border-white/30">
-                      {member.department}
-                    </Badge>
+              <Reveal key={member.name} delay={index * 100}>
+                <article className="spotlight group flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-500 hover:-translate-y-1.5 hover:border-foreground/20 hover:shadow-[0_0_40px_-12px_oklch(0.66_0.18_255/0.45)]">
+                  <div className="relative h-64 w-full overflow-hidden">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                    <div className="absolute inset-x-5 bottom-5 text-white">
+                      <span className="inline-block rounded-full border border-white/25 bg-white/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-[0.14em] backdrop-blur-md">
+                        {member.department}
+                      </span>
+                      <h3 className="mt-2.5 text-xl font-semibold">{member.name}</h3>
+                      <p className="text-sm font-light text-white/85">{member.position}</p>
+                    </div>
                   </div>
-                </div>
-                
-                <CardHeader className="p-6">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                    <Clock className="w-4 h-4" />
-                    <span>{member.experience} experience</span>
-                  </div>
-                  <CardDescription className="text-sm leading-relaxed">
-                    {member.bio}
-                  </CardDescription>
-                </CardHeader>
-                
-                <CardContent className="p-6 pt-0">
-                  <div className="space-y-3">
-                    <div className="flex flex-wrap gap-2">
-                      {member.specialties.map((specialty, idx) => (
-                        <Badge key={idx} variant="outline" className="text-xs">
+
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Clock className="size-4 text-sky" />
+                      {member.experience} experience
+                    </p>
+                    <p className="mt-3 text-sm font-light leading-relaxed text-muted-foreground">{member.bio}</p>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {member.specialties.map((specialty) => (
+                        <span key={specialty} className="rounded-full border px-3 py-1 text-xs text-foreground/80">
                           {specialty}
-                        </Badge>
+                        </span>
                       ))}
                     </div>
-                    
-                    <div className="pt-4 border-t space-y-2">
-                      <div className="flex items-center gap-3 text-sm">
-                        <Mail className="w-4 h-4 text-muted-foreground" />
-                        <a href={`mailto:${member.email}`} className="text-primary hover:underline">
-                          {member.email}
-                        </a>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <Phone className="w-4 h-4 text-muted-foreground" />
-                        <a href={`tel:${member.phone}`} className="text-primary hover:underline">
-                          {member.phone}
-                        </a>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <Linkedin className="w-4 h-4 text-muted-foreground" />
-                        <a 
-                          href={`https://linkedin.com/in/${member.linkedin}`} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline"
-                        >
-                          LinkedIn Profile
-                        </a>
-                      </div>
+
+                    <div className="mt-auto space-y-2.5 border-t pt-5 text-sm [&_a]:transition-colors">
+                      <a href={`mailto:${member.email}`} className="flex items-center gap-3 text-foreground/80 hover:text-sky">
+                        <Mail className="size-4 text-muted-foreground" />
+                        {member.email}
+                      </a>
+                      <a href={`tel:${member.phone}`} className="flex items-center gap-3 text-foreground/80 hover:text-sky">
+                        <Phone className="size-4 text-muted-foreground" />
+                        {member.phone}
+                      </a>
+                      <a
+                        href={`https://linkedin.com/in/${member.linkedin}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 text-foreground/80 hover:text-sky"
+                      >
+                        <Linkedin className="size-4 text-muted-foreground" />
+                        LinkedIn Profile
+                      </a>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </article>
+              </Reveal>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Call to Action */}
-      <section className="py-24 bg-muted/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">
-            Ready to Work with Our Team?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Contact us today to discuss your water and energy solutions needs. 
-            Our expert team is ready to help you achieve your goals.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="#contact" 
-              className="inline-flex items-center justify-center px-8 py-4 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-colors"
-            >
-              Get in Touch
-            </a>
-            <a 
-              href="tel:+254700123456" 
-              className="inline-flex items-center justify-center px-8 py-4 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              Call Us Now
-            </a>
+          {/* Call to Action */}
+          <div className="dark relative mt-20 overflow-hidden rounded-[2rem] border bg-ink p-8 text-center text-foreground sm:p-14">
+            <div className="absolute -right-24 -top-24 size-80 rounded-full bg-primary/40 blur-[100px]" />
+            <div className="absolute -bottom-24 -left-24 size-80 rounded-full bg-primary/20 blur-[100px]" />
+            <div className="relative">
+              <h2 className="text-2xl font-semibold sm:text-4xl">Ready to Work with Our Team?</h2>
+              <p className="mx-auto mt-4 max-w-2xl font-light text-muted-foreground sm:text-lg">
+                Contact us today to discuss your water and energy solutions needs. Our expert team is ready to help
+                you achieve your goals.
+              </p>
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                <a href="/#contact" className="btn-glow">
+                  Get in Touch
+                </a>
+                <a href="tel:+254700123456" className="btn-outline">
+                  Call Us Now
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
