@@ -1,159 +1,190 @@
 "use client"
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Menu, Phone, X } from "lucide-react"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
+import { ThemeToggle } from "@/components/theme-toggle"
+
+const navItems = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "services", label: "Services" },
+  { id: "products", label: "Products", href: "/products" },
+  { id: "team", label: "Team", href: "/team" },
+  { id: "contact", label: "Contact" },
+]
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [active, setActive] = useState("home")
+  const [isHome, setIsHome] = useState(false)
+
+  useEffect(() => {
+    if (window.location.pathname.startsWith("/products")) setActive("products")
+    if (window.location.pathname.startsWith("/team")) setActive("team")
+    setIsHome(window.location.pathname === "/")
+
+    const onScroll = () => setIsScrolled(window.scrollY > 12)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
+  // Highlight the nav item for whichever home-page section is in view
+  useEffect(() => {
+    if (window.location.pathname !== "/") return
+    const sections = navItems
+      .filter((item) => !item.href)
+      .map((item) => document.getElementById(item.id))
+      .filter(Boolean) as HTMLElement[]
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    )
+    sections.forEach((s) => observer.observe(s))
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isMenuOpen])
 
   const scrollToSection = (sectionId: string) => {
-    // Check if we're on the home page
-    if (window.location.pathname === '/') {
-      const element = document.getElementById(sectionId)
-      if (element) {
-        element.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-          inline: "nearest",
-        })
-      }
+    if (window.location.pathname === "/") {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth", block: "start" })
     } else {
-      // If we're on a different page, navigate to home and then scroll
       window.location.href = `/#${sectionId}`
     }
-    setIsMenuOpen(false) // Close mobile menu after navigation
+    setIsMenuOpen(false)
   }
 
-  const scrollToContact = () => scrollToSection("contact")
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-lg">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
+        isScrolled || isMenuOpen
+          ? "border-foreground/[0.08] bg-background/70 backdrop-blur-xl"
+          : "border-transparent bg-transparent",
+        // Over the always-dark home hero, use light text in both themes
+        isHome && !isScrolled && !isMenuOpen && "dark text-foreground",
+      )}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between">
-          <div className="flex items-center">
-            <div className="cursor-pointer group" onClick={() => {
-              if (window.location.pathname === '/') {
-                scrollToSection("home")
-              } else {
-                window.location.href = '/'
-              }
-            }}>
-              <Image
-                src="/images/electromech-logo.jpg"
-                alt="Electromech - Your Engineering Solutions"
-                width={200}
-                height={70}
-                className="h-14 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
-                priority
-              />
-            </div>
-          </div>
+        <div className="flex h-16 items-center justify-between">
+          <button
+            aria-label="Electromech home"
+            className="rounded-md bg-white px-1.5 py-0.5 ring-1 ring-black/5 transition-opacity duration-200 hover:opacity-85"
+            onClick={() => (window.location.pathname === "/" ? scrollToSection("home") : (window.location.href = "/"))}
+          >
+            <Image
+              src="/images/electromech-logo.jpg"
+              alt="Electromech - Your Engineering Solutions"
+              width={200}
+              height={70}
+              className="h-9 w-auto object-contain"
+              priority
+            />
+          </button>
 
           {/* Desktop Navigation */}
-              <nav className="hidden md:flex items-center space-x-8 lg:space-x-10">
-            <button
-              onClick={() => scrollToSection("home")}
-                  className="text-base font-semibold hover:text-primary transition-colors relative group"
-            >
-              Home
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </button>
-            <button
-              onClick={() => scrollToSection("services")}
-                  className="text-base font-semibold hover:text-primary transition-colors relative group"
-            >
-              Our Services
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </button>
-                <a
-                  href="/products"
-                  className="text-base font-semibold hover:text-primary transition-colors relative group"
-                >
-                  Products
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:flex">
+            {navItems.map((item) => {
+              const isActive = active === item.id
+              const classes = cn(
+                "text-xs font-medium uppercase tracking-[0.14em] transition-colors",
+                isActive ? "text-foreground" : "text-foreground/60 hover:text-foreground",
+              )
+              return item.href ? (
+                <a key={item.id} href={item.href} className={classes}>
+                  {item.label}
                 </a>
-                <a
-                  href="/team"
-                  className="text-base font-semibold hover:text-primary transition-colors relative group"
-                >
-                  Our Team
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            <button
-              onClick={() => scrollToSection("about")}
-                  className="text-base font-semibold hover:text-primary transition-colors relative group"
-            >
-                  About Us
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-                  className="text-base font-semibold hover:text-primary transition-colors relative group"
-            >
-              Contact
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </button>
-            <Button className="ml-6 px-6 py-2 bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary transition-all duration-300 font-semibold" onClick={scrollToContact}>
-              Get Free Quote
-            </Button>
+              ) : (
+                <button key={item.id} onClick={() => scrollToSection(item.id)} className={classes}>
+                  {item.label}
+                </button>
+              )
+            })}
           </nav>
 
-          {/* Mobile menu button */}
-          <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden">
-                <div className="px-4 pt-4 pb-6 space-y-2 border-t bg-background/95 backdrop-blur">
-              <button
-                onClick={() => scrollToSection("home")}
-                    className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => scrollToSection("services")}
-                    className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-              >
-                Our Services
-              </button>
-                  <a
-                    href="/products"
-                    className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-                  >
-                    Products
-                  </a>
-                  <a
-                    href="/team"
-                    className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-                  >
-                    Our Team
-                  </a>
-              <button
-                onClick={() => scrollToSection("about")}
-                    className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-              >
-                    About Us
-              </button>
-              <button
-                onClick={() => scrollToSection("contact")}
-                    className="block w-full text-left px-4 py-3 text-base font-semibold hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-              >
-                Contact
-              </button>
-                  <div className="px-4 py-3">
-                    <Button className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-primary/90" onClick={scrollToContact}>
-                      Get Free Quote
-                </Button>
-              </div>
-            </div>
+          <div className="hidden items-center gap-5 lg:flex">
+            <ThemeToggle className="size-8 border-transparent bg-transparent" />
+            <a
+              href="tel:+250788406109"
+              className="flex items-center gap-1.5 text-xs font-medium tracking-[0.06em] text-foreground/60 transition-colors hover:text-foreground"
+            >
+              <Phone className="size-3.5" />
+              +250 788 406 109
+            </a>
+            <button
+              onClick={() => scrollToSection("contact")}
+              className="rounded-full border border-foreground/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
+            >
+              Get a Quote
+            </button>
           </div>
+
+          {/* Mobile theme toggle + menu button */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <ThemeToggle className="size-10" />
+            <button
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              className="flex size-10 items-center justify-center rounded-lg bg-foreground/[0.06] text-foreground"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll progress */}
+      <div className="scroll-progress absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-accent via-primary to-sky" />
+
+      {/* Mobile Navigation */}
+      <div
+        className={cn(
+          "overflow-hidden border-t bg-background/95 backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-out lg:hidden",
+          isMenuOpen ? "max-h-[32rem] opacity-100" : "max-h-0 border-transparent opacity-0",
         )}
+      >
+        <div className="container mx-auto space-y-1 px-4 pb-6 pt-3 sm:px-6">
+          {navItems.map((item) => {
+            const classes = cn(
+              "block w-full rounded-xl px-4 py-3 text-left text-base font-medium transition-colors",
+              active === item.id ? "bg-foreground/[0.07] text-foreground" : "text-foreground/70 hover:bg-foreground/[0.04] hover:text-foreground",
+            )
+            return item.href ? (
+              <a key={item.id} href={item.href} className={classes}>
+                {item.label}
+              </a>
+            ) : (
+              <button key={item.id} onClick={() => scrollToSection(item.id)} className={classes}>
+                {item.label}
+              </button>
+            )
+          })}
+          <div className="grid gap-3 pt-4 sm:grid-cols-2">
+            <a href="tel:+250788406109" className="btn-outline h-12 py-0">
+              <Phone className="size-4" /> Call us
+            </a>
+            <button
+              className="btn-glow h-12 py-0"
+              onClick={() => scrollToSection("contact")}
+            >
+              Get a Quote
+            </button>
+          </div>
+        </div>
       </div>
     </header>
   )

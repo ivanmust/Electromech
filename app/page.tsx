@@ -8,11 +8,11 @@ import { Footer } from "@/components/footer"
 
 export default function Home() {
   return (
-    <main className="min-h-screen scroll-smooth">
+    <main className="min-h-screen overflow-x-clip">
       <Header />
       <HeroSection />
-      <ServicesSection />
       <AboutSection />
+      <ServicesSection />
       <ClientsSection />
       <ContactSection />
       <Footer />
