@@ -97,7 +97,7 @@ export function Header() {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:flex">
+          <nav className="mx-auto hidden items-center gap-6 px-4 lg:flex xl:gap-8">
             {navItems.map((item) => {
               const isActive = active === item.id
               const classes = cn(
@@ -116,11 +116,11 @@ export function Header() {
             })}
           </nav>
 
-          <div className="hidden items-center gap-5 lg:flex">
+          <div className="hidden shrink-0 items-center gap-4 lg:flex xl:gap-5">
             <ThemeToggle className="size-8 border-transparent bg-transparent" />
             <a
               href="tel:+250788406109"
-              className="flex items-center gap-1.5 text-xs font-medium tracking-[0.06em] text-foreground/60 transition-colors hover:text-foreground"
+              className="hidden items-center gap-1.5 whitespace-nowrap text-xs font-medium tracking-[0.06em] text-foreground/60 transition-colors hover:text-foreground xl:flex"
             >
               <Phone className="size-3.5" />
               +250 788 406 109

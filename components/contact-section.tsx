@@ -77,7 +77,7 @@ export function ContactSection() {
         <Reveal>
           <div className="grid overflow-hidden rounded-[2rem] border bg-card shadow-[0_30px_80px_-30px_rgb(0_0_0/0.9)] lg:grid-cols-5">
             {/* Contact Information */}
-            <div className="dark relative overflow-hidden bg-ink p-8 text-white sm:p-10 lg:col-span-2">
+            <div className="dark relative min-w-0 overflow-hidden bg-ink p-6 text-white sm:p-10 lg:col-span-2">
               <div className="bg-grid absolute inset-0 opacity-40" />
               <div className="absolute -bottom-24 -right-24 size-72 rounded-full bg-primary/60 blur-[90px]" />
               <div className="relative flex h-full flex-col">
@@ -116,7 +116,7 @@ export function ContactSection() {
                     </div>
                     <div>
                       <p className="text-sm text-white/50">Email address</p>
-                      <a href="mailto:info@electromech.co.rw" className="mt-0.5 block font-medium transition-colors hover:text-sky">
+                      <a href="mailto:info@electromech.co.rw" className="mt-0.5 block text-sm font-medium [overflow-wrap:anywhere] sm:text-base transition-colors hover:text-sky">
                         info@electromech.co.rw
                       </a>
                     </div>
@@ -145,7 +145,7 @@ export function ContactSection() {
             </div>
 
             {/* Contact Form */}
-            <div className="p-8 sm:p-10 lg:col-span-3 lg:p-12">
+            <div className="min-w-0 p-6 sm:p-10 lg:col-span-3 lg:p-12">
               <h3 className="text-2xl font-bold">Get a free quote</h3>
               <p className="mt-2 text-muted-foreground">Fill out the form and we&apos;ll get back to you within 24 hours.</p>
 
