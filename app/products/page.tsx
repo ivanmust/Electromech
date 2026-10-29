@@ -87,7 +87,7 @@ export default function ProductsPage() {
     setOrderForm(prev => ({ ...prev, [field]: value }))
   }
 
-  const sendWhatsAppNotification = async (orderData: any) => {
+  const buildWhatsAppUrl = (orderData: any) => {
     const phoneNumber = "250788315337" // Your WhatsApp number
     const message = `🛒 *NEW ORDER RECEIVED* 🛒
 
@@ -125,59 +125,29 @@ ${orderData.customerInfo.specialRequirements || 'None'}
 ---
 Electromech Order System`
 
-    try {
-      // Try to send via API first
-      const response = await fetch('/api/send-whatsapp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: phoneNumber, message })
-      })
-      
-      const result = await response.json()
-      
-      if (result.success && result.method === 'direct_link') {
-        // If API returns direct link, open WhatsApp
-        window.open(result.url, '_blank')
-      }
-      
-      console.log('WhatsApp notification sent:', result)
-    } catch (error) {
-      console.log('WhatsApp API error, using direct link:', error)
-      
-      // Fallback: Create WhatsApp URL and open
-      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
-      window.open(whatsappUrl, '_blank')
-    }
+    return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // WhatsApp must be opened synchronously inside the submit handler: browsers (iPhone Safari especially)
+  // block windows opened after an await, which used to drop orders while still showing the success screen.
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
-    try {
-      // Prepare order data
-      const orderData = {
-        selectedProducts: selectedProductsData,
-        customerInfo: orderForm,
-        orderDate: new Date().toLocaleString(),
-        orderId: `ORD-${Date.now()}`
-      }
 
-      console.log('Order Data:', orderData)
-      
-      // Send WhatsApp notification
-      await sendWhatsAppNotification(orderData)
-      
-      // Simulate processing time
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      setIsSubmitting(false)
-      setIsSubmitted(true)
-    } catch (error) {
-      console.error('Order submission error:', error)
-      setIsSubmitting(false)
-      // You could show an error message here
+    const orderData = {
+      selectedProducts: selectedProductsData,
+      customerInfo: orderForm,
+      orderDate: new Date().toLocaleString(),
+      orderId: `ORD-${Date.now()}`
     }
+
+    const url = buildWhatsAppUrl(orderData)
+    const opened = window.open(url, "_blank", "noopener,noreferrer")
+    // Popup blocked: send this tab to WhatsApp instead so the order isn't lost
+    if (!opened) window.location.href = url
+
+    setIsSubmitting(false)
+    setIsSubmitted(true)
   }
 
   const selectedProductsData = products.filter(product => selectedProducts.includes(product.id))
@@ -562,9 +532,9 @@ Electromech Order System`
               <div className="mx-auto flex size-20 items-center justify-center rounded-full bg-white/20 ring-8 ring-white/10">
                 <CheckCircle2 className="size-10" />
               </div>
-              <h2 className="mt-6 text-2xl font-bold sm:text-3xl">Order submitted successfully!</h2>
+              <h2 className="mt-6 text-2xl font-bold sm:text-3xl">Your order is ready to send!</h2>
               <p className="mx-auto mt-3 max-w-md text-white/90">
-                We&apos;ve sent your order details to our WhatsApp (+250 788 315 337). Our team will contact you within 24 hours to confirm details and provide pricing.
+                WhatsApp has opened with your order details for +250 788 315 337. Press <strong>Send</strong> in WhatsApp to complete your order. Our team will contact you within 24 hours to confirm details and provide pricing.
               </p>
             </div>
             <div className="p-8">
